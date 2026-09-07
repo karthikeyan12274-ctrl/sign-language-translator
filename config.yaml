@@ -1,0 +1,36 @@
+# Configuration for Sign Language Translator
+
+data:
+  raw_dir: "data/raw"
+  processed_dir: "data/processed"
+  dataset_dir: "data/dataset"
+  checkpoint_dir: "checkpoints"
+  gloss_vocab: ["<PAD>", "<SOS>", "<EOS>", "I", "YOU", "WE", "GO", "COME", "WANT", "LIKE", "UNIVERSITY", "TOMORROW", "TODAY", "YESTERDAY", "HELLO", "GOOD", "THANK_YOU", "SIGN", "LANGUAGE", "LEARN"]
+  text_vocab: ["<PAD>", "<SOS>", "<EOS>", "<UNK>", "i", "you", "we", "go", "going", "come", "coming", "want", "like", "to", "the", "university", "tomorrow", "today", "yesterday", "hello", "good", "thank", "sign", "language", "learn", "learning", "am", "is", "are", "a", "."]
+
+model:
+  spatial:
+    input_dim: 225       # 21 (lh) * 3 + 21 (rh) * 3 + 33 (pose) * 3 (subsetted/total) - let's specify input keypoint size after extraction
+    hidden_dim: 256
+  temporal:
+    num_layers: 4
+    num_heads: 8
+    feedforward_dim: 512
+    dropout: 0.1
+  translation:
+    embed_dim: 256
+    num_layers: 4
+    num_heads: 8
+    feedforward_dim: 512
+    dropout: 0.1
+
+training:
+  recognition:
+    batch_size: 16
+    learning_rate: 0.001
+    epochs: 20
+    ctc_weight: 1.0
+  translation:
+    batch_size: 16
+    learning_rate: 0.0005
+    epochs: 30
